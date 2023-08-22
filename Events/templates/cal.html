@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calender</title>
+</head>
+<body>
+    {% extends 'base.html' %}
+    {% block content %}
+        <center>
+        <h1>Hello Event for {{month}} and {{year}}</h1><br>
+        <br>
+        <h4>{{calen|safe}}</h4>
+        <br><br>
+        
+        <h2>current day:
+            <h3>{{current_day}}:{{current_month}}:{{current_year}}</h3>
+        </h2>
+        <h2>current time:
+            <h3>{{current_time}}</h3>
+        </h2>
+        {% for i in months_nam %}
+            <h2>{{i}}</h2>
+        {% endfor %}
+        <h3>{{months_nam}}</h3>
+    
+
+        </center>
+    {% endblock %}
+    
+</body>
+</html>

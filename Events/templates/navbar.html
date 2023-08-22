@@ -1,0 +1,61 @@
+<nav class="navbar navbar-expand-lg navbar-dark text-light bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">My Club</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Events
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url 'list_event' %}">All Events</a>
+            {% if user.is_authenticated %}
+            <a class="dropdown-item" href="{% url 'add_event' %}">Add Events</a>
+            <a class="dropdown-item" href="{% url 'my_event' %}">My Events</a>
+            <a class="dropdown-item" href="{% url 'search_event' %}">Search Events</a>
+            {% endif %} 
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Venues
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url 'list_venue' %}">Show Venues</a>
+            {% if user.is_authenticated %}
+            <a class="dropdown-item" href="{% url 'add_venue' %}">Add Venue</a>
+            {% endif %}
+          </div>
+        </li>
+        {% if user.is_superuser %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'admin_approval' %}">Admin</a>
+        </li>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout_user' %}">Logout</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login_user' %}">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'register_user' %}">Register</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+    <form class="d-flex" role="search" method=POST action="{% url 'search_venue' %}">
+      {% csrf_token %}
+      <input class="form-control me-2" type="search" placeholder="Search Venue" aria-label="Search" name="searched">
+      <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+    </form> 
+  </div>
+</nav>

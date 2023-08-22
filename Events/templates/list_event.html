@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>list of events</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" >
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+
+</head>
+<body>
+  {% extends 'base.html' %}
+  {% block content %}
+    <h1>Events</h1>
+    <div class="dropup-center dropup">
+      <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Download Events
+      </button>
+      <ul class="dropdown-menu dropdown-menu-dark">
+        <li><a class="dropdown-item" href="{% url 'event_text' %}">Text file</a></li>
+        <li><a class="dropdown-item" href="{% url 'event_csv' %}">CSV file</a></li>
+        <li><a class="dropdown-item" href="{% url 'event_pdf' %}">PDF file</a></li>
+      </ul>
+    </div>
+    {% for event in event_list %}
+      {% if event.approved %}
+        <div class="card">
+          <div class="card-header">
+            {{event}}
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Venue: {{event.venue}}</h5>
+            <p class="card-text">
+              <ul>
+                <strong>Date:</strong>{{event.event_date}}<br>
+                <strong>Days Till Event :</strong>{{event.Days_till}}<br>
+                <strong>Occured? :</strong>{{event.Is_post}}<br>
+                <strong> Name :</strong>{{event.name}}<br>
+                <strong>Venue website:</strong> {{event.venue.web}}<br>
+                <strong>Manager: </strong>{{event.manager}}<br>
+                <strong>Description: </strong>{{event.description }}<br>
+                <strong>Approved :</strong> {{event.approved}}<br>
+                <strong>Attendees :</strong><br>
+                  {% for user in event.attendees.all%}
+                      {{user}},  
+                  {% endfor %}
+              
+              </ul>
+              <br>
+            </p>
+            {% if user.is_authenticated %}
+              {% if user == event.manager %}
+                <div class="card-footer text-muted">
+                  <a href="{% url 'update_event' event.id %} " class="btn btn-outline-warning btn-sm ">Update</a>
+                  <a href="{% url 'delete_event' event.id %} " class="btn btn-outline-danger btn-sm ">Delete</a>
+                </div>
+              {% endif %}
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}    
+    {% endfor %}
+  {% endblock %}
+    
+</body>
+</html> 
