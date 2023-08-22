@@ -5,3 +5,4 @@ reportlab==4.0.4
 sqlparse==0.4.4
 tzdata==2023.3
 pytz
+django-cors-headers
