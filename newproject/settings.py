@@ -72,7 +72,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'newproject.wsgi.application'
 
-
+CSRF_TRUSTED_ORIGINS = ['https://eventing-kqos.zeet-esakkinathan03.zeet.app/']
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
