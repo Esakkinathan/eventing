@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-h7f+shi*bc+umx9le5u5m7cz5mz!rwnse-#&v2muy)7aueqf0k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['eventing-kqos.zeet-esakkinathan03.zeet.app/']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
