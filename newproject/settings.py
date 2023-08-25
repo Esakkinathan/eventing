@@ -73,7 +73,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'newproject.wsgi.application'
-
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = ['http://eventing-kqos.zeet-esakkinathan03.zeet.app/']
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
