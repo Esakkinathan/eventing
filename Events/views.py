@@ -210,30 +210,44 @@ def search_event(request):
 @csrf_exempt
 def admin_approval(request):
     venue_list = Venue.objects.all()
-    event_count = Events.objects.all().count()
-    venue_count = Venue.objects.all().count()
-    user_count = User.objects.all().count()
-    event_list = Events.objects.filter(approved=False)
-    #print(event_list)
-    if request.user.is_superuser:
-        if request.method == "POST" :
-            id_list = request.POST.getlist('boxes')
-            event_list.update(approved=True)
-            for x in id_list:
-                Events.objects.filter(pk=int(x)).update(approved = True)
-            messages.success(request,("Event List approval has been updated")) 
-            return redirect("list_event")
-        return render(request,'admin_approval.html',{
-            'event_list' : event_list, 
-            'event_count':event_count,
-            'venue_count':venue_count,
-            'user_count':user_count,
-            'venue_list' : venue_list
-        })
-    else:
-        messages.success(request,("You aren't authorized to view this page"))    
-        return redirect('home')
-    return render(request,'event_approval.html',{})
+   	# Get Counts
+   	event_count = Event.objects.all().count()
+   	venue_count = Venue.objects.all().count()
+   	user_count = User.objects.all().count()
+   
+   	event_list = Event.objects.all().order_by('-event_date')
+   	if request.user.is_superuser:
+   		 if request.method == "POST":
+   			# Get list of checked box id's
+   			id_list = request.POST.getlist('boxes')
+   
+   			# Uncheck all events
+   			event_list.update(approved=False)
+   
+   			# Update the database
+   			for x in id_list:
+   				Event.objects.filter(pk=int(x)).update(approved=True)
+   			
+   			# Show Success Message and Redirect
+   			messages.success(request, ("Event List Approval Has Been Updated!"))
+   			return redirect('list-events')
+   
+   
+   
+   		else:
+   			return render(request, 'events/admin_approval.html',
+   				{"event_list": event_list,
+   				"event_count":event_count,
+   				"venue_count":venue_count,
+   				"user_count":user_count,
+   				"venue_list":venue_list})
+   	else:
+   		messages.success(request, ("You aren't authorized to view this page!"))
+   		return redirect('home')
+   
+   
+   	return render(request, 'events/admin_approval.html')
+
 @csrf_exempt
 def delete_event(request,event_id):
     event=Events.objects.get(pk=event_id)
