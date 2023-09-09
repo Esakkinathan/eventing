@@ -17,9 +17,7 @@ from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
 import pytz
 from django.core.paginator import Paginator
-from django.views.decorators.csrf import csrf_exempt
 
- 
 def home(request, year=datetime.now().year, month=datetime.now().strftime('%B')):
     name = "eventer"
     month = month.capitalize()
@@ -57,7 +55,7 @@ def list_event(request):
     return render(request,'list_event.html',{
         'event_list':event_list
     })
-@csrf_exempt
+
 def add_venue(request):
      submitted=False
      if request.method=="POST": 
@@ -99,7 +97,7 @@ def show_venue(request,venue_id):
         'venue_owner':venue_owner,
         'events':events
     })
-@csrf_exempt
+
 def search_venue(request):
     if request.method == "POST" :
         searched = request.POST['searched']
@@ -110,7 +108,7 @@ def search_venue(request):
             })
     else:
         return render(request,'search_venue.html',{})
-@csrf_exempt
+
 def update_venue(request,venue_id):
     venue=Venue.objects.get(pk=venue_id)
     form=VenueForm(request.POST or None,request.FILES or None,instance=venue )
@@ -139,7 +137,7 @@ def show_event(request,event_id):
     return render(request,"show_event.html",{
         'event':event
     })
-@csrf_exempt
+
 def add_event(request):
     submitted=False     
     if request.method=="POST":
@@ -170,7 +168,7 @@ def add_event(request):
          "form":form,
          "submitted":submitted
      })
-@csrf_exempt
+
 def update_event(request,event_id):
     event=Events.objects.get(pk=event_id)
     if request.user.is_superuser :
@@ -196,7 +194,7 @@ def my_event(request):
     else:
         messages.success(request,"You are'nt authorized to view this page")
         return redirect('list_event')
-@csrf_exempt
+
 def search_event(request):
     if request.method == "POST" :
         searched = request.POST['searched']
@@ -207,9 +205,9 @@ def search_event(request):
             })
     else:
         return render(request,'search_event.html',{})
-@csrf_exempt
+
 def admin_approval(request):
-       venue_list = Venue.objects.all()
+    venue_list = Venue.objects.all()
    	# Get Counts
     event_count = Events.objects.all().count()
     venue_count = Venue.objects.all().count()
@@ -246,7 +244,7 @@ def admin_approval(request):
         return redirect('home')
 
 
-@csrf_exempt
+
 def delete_event(request,event_id):
     event=Events.objects.get(pk=event_id)
     if request.user == event.manager :
@@ -256,7 +254,7 @@ def delete_event(request,event_id):
     else:
         messages.success(request,"You are'nt authorized to delete this event")
         return redirect('list_event')
-@csrf_exempt
+
 def delete_venue(request,venue_id):
     venue=Venue.objects.get(pk=venue_id)
     venue.delete()
